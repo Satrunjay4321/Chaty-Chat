@@ -19,18 +19,23 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }))
-app.use('/api/auth', authRoutes )
-app.use('/api/messages', messageRoutes )
+app.use('/api/auth', authRoutes)
+app.use('/api/messages', messageRoutes)
 
-if(process.env.NODE_ENV === "production"){
+if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../frontend/chat-app/dist")));
 
-    app.get("*", (req, res)=>{
-        res.sendFile(path.join(__dirname, "../frontend", "chat-app", "dist", "index.html"))
+    app.get("/*", (req, res) => {
+        res.sendFile(path.join(__dirname, "../frontend/chat-app/dist/index.html"));
     });
+
+
+    // app.get("*", (req, res) => {
+    //     res.sendFile(path.join(__dirname, "../frontend", "chat-app", "dist", "index.html"))
+    // });
 }
 
-server.listen(PORT, ()=>{
-    console.log("App is running on the port:"+ PORT);
+server.listen(PORT, () => {
+    console.log("App is running on the port:" + PORT);
     connectDB();
 })
